@@ -1,16 +1,23 @@
-<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
-</html>
+{% extends "base.html" %}
+{% block content %}
+<h1>Edit Task <a href="#">Current task</a></h1>
+
+  <form>
+        <div class="form-group">
+      <label>Curren task</label>
+      <input type="text" class="form-control" placeholder="Give new value">
+    </div>
+    <div class="form-group">
+      <label>Add new tag</label>
+      <input type="text" class="form-control" placeholder="Add Tag">
+    </div>
+    <div class="form-group">
+      <label>Description</label>
+      <textarea class="form-control" placeholder="Current description here">
+      </textarea>
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-success">Save!</button>
+    </div>
+  </form>
+{% endblock %}
