@@ -7,15 +7,15 @@ CREATE TABLE Owner (
 
 CREATE TABLE Task (
   id SERIAL PRIMARY KEY,
-  owner_id INTEGER REFERENCES Owner(id),
+  owner_id INTEGER REFERENCES Owner(id) NOT NULL,
   taskname varchar(50) NOT NULL,
 --  played boolean DEFAULT FALSE,
-  description varchar(400),
+  description varchar(400)
 );
 
 CREATE TABLE Tag (
   id SERIAL PRIMARY KEY,
-  tagname varchar(50) NOT NULL,
+  tagname varchar(50) NOT NULL
 );
 
 CREATE TABLE TaskTag (
@@ -25,10 +25,10 @@ CREATE TABLE TaskTag (
 
 CREATE TABLE Priority (
   id SERIAL PRIMARY KEY,
-  priorityname varchar(50) NOT NULL,
+  priorityname varchar(50) NOT NULL
 );
 
 CREATE TABLE TaskPriority (
-  priority_id INTEGER REFERENCES Priority(id), NOT NULL
+  priority_id INTEGER REFERENCES Priority(id) NOT NULL,
   task_id INTEGER REFERENCES Task(id) NOT NULL
 );
