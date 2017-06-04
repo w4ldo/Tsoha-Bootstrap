@@ -5,7 +5,7 @@ Yleisiä linkkejä:
 * [Linkki sovellukseeni](http://imatias.users.cs.helsinki.fi/memoryTool/task)
   * [tasks](http://imatias.users.cs.helsinki.fi/memoryTool/task)
   * [task show](http://imatias.users.cs.helsinki.fi/memoryTool/task/1)
-  * [task edit](http://imatias.users.cs.helsinki.fi/memoryTool/taskedit)
+  * [task new](http://imatias.users.cs.helsinki.fi/memoryTool/task/new)
 * [Linkki dokumentaatiooni](https://github.com/w4ldo/memoryTool/blob/master/doc/dokumentaatio.pdf)
 
 ## Työn aihe
