@@ -25,10 +25,6 @@ CREATE TABLE TaskTag (
 
 CREATE TABLE Priority (
   id SERIAL PRIMARY KEY,
+  task_id INTEGER REFERENCES Task(id),
   priorityname varchar(50) NOT NULL
-);
-
-CREATE TABLE TaskPriority (
-  priority_id INTEGER REFERENCES Priority(id) NOT NULL,
-  task_id INTEGER REFERENCES Task(id) NOT NULL
 );

@@ -9,9 +9,17 @@ class HelloWorldController extends BaseController {
 
     public static function sandbox() {
         // Testaa koodiasi täällä
-        View::make('helloworld.html');
+        $owner = Owner::find(1);
+        $owners = Owner::all();
+        $task = Task::find(1);
+        $tasks = Task::all();
+        // Kint-luokan dump-metodi tulostaa muuttujan arvon
+        Kint::dump($owner);
+        Kint::dump($owners);
+        Kint::dump($task);
+        Kint::dump($tasks);
     }
-    
+
     public static function task_edit() {
         View::make('suunnitelmat/task_edit.html');
     }
