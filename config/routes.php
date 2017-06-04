@@ -11,6 +11,15 @@ $routes->get('/hiekkalaatikko', function() {
 $routes->get('/task', function() {
     TaskController::index();
 });
+
+$routes->post('/task', function() {
+    TaskController::store();
+});
+// Pelin lisäyslomakkeen näyttäminen
+$routes->get('/task/new', function() {
+    TaskController::create();
+});
+
 $routes->get('/task/:id', function($id) {
     TaskController::show($id);
 });

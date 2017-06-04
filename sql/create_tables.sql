@@ -7,9 +7,8 @@ CREATE TABLE Owner (
 
 CREATE TABLE Task (
   id SERIAL PRIMARY KEY,
-  owner_id INTEGER REFERENCES Owner(id) NOT NULL,
+  owner_id INTEGER REFERENCES Owner(id),
   taskname varchar(50) NOT NULL,
---  played boolean DEFAULT FALSE,
   description varchar(400)
 );
 
