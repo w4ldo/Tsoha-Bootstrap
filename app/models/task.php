@@ -61,4 +61,46 @@ class Task extends BaseModel {
         $this->id = $row['id'];
     }
 
+    public function update() {
+        $query = DB::connection()->prepare('UPDATE Task (taskname, description) VALUES (:taskname, :description)');
+        $query->execute(array('taskname' => $this->taskname, 'description' => $this->description));
+    }
+
+    public function destroy() {
+        $query = DB::connection()->prepare('DELETE Task (taskname, description) VALUES (:taskname, :description)');
+        $query->execute(array('taskname' => $this->taskname, 'description' => $this->description));
+    }
+
+    public function validate_taskname() {
+        $errors = array();
+        if ($this->taskname == '' || $this->taskname == null) {
+            $errors[] = 'Name can\'t be empty';
+        }
+        if (strlen($this->taskname) < 3) {
+            $errors[] = 'Name must be atleast 3 characters';
+        }
+        if (strlen($this->taskname) > 50) {
+            $errors[] = 'Name can\'t exceed 400 characters';
+        }
+        return $errors;
+    }
+
+    public function validate_description() {
+        $errors = array();
+        if (strlen($this->description) > 400) {
+            $errors[] = 'Description can\'t exceed 400 characters';
+        }
+
+        return $errors;
+    }
+
+    public function errors() {
+        $errors = array();
+
+        $errors = array_merge($errors, $this->validate_taskname());
+        $errors = array_merge($errors, $this->validate_description());
+
+        return $errors;
+    }
+
 }

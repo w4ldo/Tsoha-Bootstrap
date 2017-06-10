@@ -12,7 +12,7 @@ class TaskController extends BaseController {
     public static function create() {
         View::make('task/new.html');
     }
-    
+
     public static function show($id) {
         // Haetaan kaikki pelit tietokannasta
         $task = Task::find($id);
@@ -23,17 +23,61 @@ class TaskController extends BaseController {
     public static function store() {
         // POST-pyynnön muuttujat sijaitsevat $_POST nimisessä assosiaatiolistassa
         $params = $_POST;
-        // Alustetaan uusi Game-luokan olion käyttäjän syöttämillä arvoilla
-        $task = new Task(array(
+        $attributes = array(
             'taskname' => $params['taskname'],
             'description' => $params['description']
-        ));
+        );
 
-        // Kutsutaan alustamamme olion save metodia, joka tallentaa olion tietokantaan
-        $task->save();
+        $task = new Task($attributes);
+        $errors = $task->errors();
 
-        // Ohjataan käyttäjä lisäyksen jälkeen pelin esittelysivulle
-        Redirect::to('/task/' . $task->id, array('message' => 'Task added!'));
+        if (count($errors) == 0) {
+            $task->save();
+
+            Redirect::to('/task/' . $task->id, array('message' => 'Task created'));
+        } else {
+            View::make('task/new.html', array('errors' => $errors, 'attributes' => $attributes));
+        }
+    }
+
+    public static function edit($id) {
+        $task = Task::find($id);
+        View::make('task/edit.html', array('attributes' => $task));
+    }
+
+    // Pelin muokkaaminen (lomakkeen käsittely)
+    public static function update($id) {
+        $params = $_POST;
+
+        $attributes = array(
+            'id' => $id,
+            'taskname' => $params['taskname'],
+            'description' => $params['description']
+        );
+
+        // Alustetaan Game-olio käyttäjän syöttämillä tiedoilla
+        $task = new Task($attributes);
+        $errors = $task->errors();
+
+        if (count($errors) > 0) {
+            View::make('task/edit.html', array('errors' => $errors, 'attributes' => $attributes));
+        } else {
+            // Kutsutaan alustetun olion update-metodia, joka päivittää pelin tiedot tietokannassa
+            $task->update();
+
+            Redirect::to('/task/' . $task->id, array('message' => 'Task succesfully edited'));
+        }
+    }
+
+    // Pelin poistaminen
+    public static function destroy($id) {
+        // Alustetaan Game-olio annetulla id:llä
+        $task = new Task(array('id' => $id));
+        // Kutsutaan Game-malliluokan metodia destroy, joka poistaa pelin sen id:llä
+        $task->destroy();
+
+        // Ohjataan käyttäjä pelien listaussivulle ilmoituksen kera
+        Redirect::to('/task', array('message' => 'Task succesfully deleted'));
     }
 
 }

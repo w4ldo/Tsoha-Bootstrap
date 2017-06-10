@@ -31,3 +31,17 @@ $routes->get('/taskedit', function() {
 $routes->get('/login', function() {
     HelloWorldController::login();
 });
+
+$routes->get('/task/:id/edit', function($id) {
+    // Pelin muokkauslomakkeen esittäminen
+    TaskController::edit($id);
+});
+$routes->post('/task/:id/edit', function($id) {
+    // Pelin muokkaaminen
+    TaskController::update($id);
+});
+
+$routes->post('/task/:id/destroy', function($id) {
+    // Pelin poisto
+    TaskController::destroy($id);
+});

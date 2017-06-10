@@ -9,15 +9,13 @@ class HelloWorldController extends BaseController {
 
     public static function sandbox() {
         // Testaa koodiasi täällä
-        $owner = Owner::find(1);
-        $owners = Owner::all();
-        $task = Task::find(1);
-        $tasks = Task::all();
-        // Kint-luokan dump-metodi tulostaa muuttujan arvon
-        Kint::dump($owner);
-        Kint::dump($owners);
-        Kint::dump($task);
-        Kint::dump($tasks);
+        $doom = new Task(array(
+            'taskname' => 'd',
+            'description' => 'Bo'
+        ));
+        $errors = $doom->errors();
+
+        Kint::dump($errors);
     }
 
     public static function task_edit() {

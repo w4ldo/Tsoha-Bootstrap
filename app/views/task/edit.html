@@ -12,7 +12,7 @@
 </div>
 {% endif %}
 
-<form method="post" action="{{base_path}}/task">
+<form method="post" action="{{base_path}}/task/:id/edit">
     <div class="form-group">
         <label>Taskname</label>
         <input type="text" name="taskname" class="form-control" value="{{attributes.taskname}}">
@@ -24,7 +24,7 @@
     </div>
 
     <div class="form-group">
-        <button type="submit" class="btn btn-primary">Add</button>
+        <button type="submit" class="btn btn-primary">Edit</button>
     </div>
 </form>
 {% endblock %}
