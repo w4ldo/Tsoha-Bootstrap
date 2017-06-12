@@ -16,16 +16,18 @@ class Task extends BaseModel {
         // Haetaan kyselyn tuottamat rivit
         $rows = $query->fetchAll();
         $tasks = array();
-
+        $owner = self::get_user_logged_in;
         // Käydään kyselyn tuottamat rivit läpi
         foreach ($rows as $row) {
-            // Tämä on PHP:n hassu syntaksi alkion lisäämiseksi taulukkoon :)
-            $tasks[] = new Task(array(
-                'id' => $row['id'],
-                'owner_id' => $row['owner_id'],
-                'taskname' => $row['taskname'],
-                'description' => $row['description']
-            ));
+            if ('id' == $owner . id) {
+                // Tämä on PHP:n hassu syntaksi alkion lisäämiseksi taulukkoon :)
+                $tasks[] = new Task(array(
+                    'id' => $row['id'],
+                    'owner_id' => $row['owner_id'],
+                    'taskname' => $row['taskname'],
+                    'description' => $row['description']
+                ));
+            }
         }
 
         return $tasks;

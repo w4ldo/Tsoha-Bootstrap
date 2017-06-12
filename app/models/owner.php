@@ -48,4 +48,22 @@ class Owner extends BaseModel {
         return null;
     }
 
+    public static function authenticate($username, $password) {
+        $query = DB::connection()->prepare('SELECT * FROM Player WHERE username = :username AND password = :password LIMIT 1');
+        $query->execute(array('username' => $username, 'password' => $password));
+        $row = $query->fetch();
+
+        if ($row) {
+            $owner = new Owner(array(
+                'id' => $row['id'],
+                'username' => $row['username'],
+                'password' => $row['password']
+            ));
+
+            return $owner;
+        } else {
+            return null;
+        }
+    }
+
 }

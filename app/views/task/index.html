@@ -1,7 +1,11 @@
 {% extends "base.html" %}
 {% import "macros/forms.html" as forms %}
 {% block content %}
-<h1>Listing all tasks</h1>
+<h1>Listing</h1>
+
+{% if user_logged_in %}
+<h1>Tasks for {{user_logged_in.name}}</h1>
+{% endif %}
 
 <p>
     <a href="{{base_path}}/task/new" class="btn btn-success">add task</a>

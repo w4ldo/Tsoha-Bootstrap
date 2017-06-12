@@ -45,3 +45,12 @@ $routes->post('/task/:id/destroy', function($id) {
     // Pelin poisto
     TaskController::destroy($id);
 });
+
+$routes->get('/login', function(){
+  // Kirjautumislomakkeen esittäminen
+  OwnerController::login();
+});
+$routes->post('/login', function(){
+  // Kirjautumisen käsittely
+  OwnerController::handle_login();
+});
