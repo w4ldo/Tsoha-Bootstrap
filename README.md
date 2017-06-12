@@ -1,3 +1,6 @@
+# users lakkasi vastaamasta la 15.40 enkä tehnyt kaikkia viikon4 tehtäviä
+
+
 # Tietokantasovelluksen esittelysivu
 
 Yleisiä linkkejä:
