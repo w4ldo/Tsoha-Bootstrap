@@ -1,11 +1,8 @@
-# users lakkasi vastaamasta la 15.40 enkä tehnyt kaikkia viikon4 tehtäviä
-
-
 # Tietokantasovelluksen esittelysivu
 
 Yleisiä linkkejä:
 
-* [Linkki sovellukseeni](http://imatias.users.cs.helsinki.fi/memoryTool/task)
+* [Linkki sovellukseeni](http://imatias.users.cs.helsinki.fi/memoryTool/task)  << 503 Service Unavailable
   * [tasks](http://imatias.users.cs.helsinki.fi/memoryTool/task)
   * [task show](http://imatias.users.cs.helsinki.fi/memoryTool/task/1)
   * [task new](http://imatias.users.cs.helsinki.fi/memoryTool/task/new)
