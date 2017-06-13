@@ -2,7 +2,7 @@
 
 Yleisiä linkkejä:
 
-* [Linkki sovellukseeni](http://imatias.users.cs.helsinki.fi/memoryTool/task)  << 503 Service Unavailable ma 15.00
+* [Linkki sovellukseeni](http://imatias.users.cs.helsinki.fi/memoryTool/task)
   * [tasks](http://imatias.users.cs.helsinki.fi/memoryTool/task)
   * [task show](http://imatias.users.cs.helsinki.fi/memoryTool/task/1)
   * [task new](http://imatias.users.cs.helsinki.fi/memoryTool/task/new)
