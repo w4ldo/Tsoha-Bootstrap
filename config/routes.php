@@ -8,6 +8,21 @@ $routes->get('/hiekkalaatikko', function() {
     HelloWorldController::sandbox();
 });
 
+$routes->post('/task/:id/destroy', function($id) {
+    // Pelin poisto
+    TaskController::destroy($id);
+});
+
+$routes->get('/task/:id/edit', function($id) {
+    // Pelin muokkauslomakkeen esittäminen
+    TaskController::edit($id);
+});
+
+$routes->post('/task/:id/edit', function($id) {
+    // Pelin muokkaaminen
+    TaskController::update($id);
+});
+
 $routes->get('/task', function() {
     TaskController::index();
 });
@@ -32,25 +47,11 @@ $routes->get('/login', function() {
     HelloWorldController::login();
 });
 
-$routes->get('/task/:id/edit', function($id) {
-    // Pelin muokkauslomakkeen esittäminen
-    TaskController::edit($id);
+$routes->get('/login', function() {
+    // Kirjautumislomakkeen esittäminen
+    OwnerController::login();
 });
-$routes->post('/task/:id/edit', function($id) {
-    // Pelin muokkaaminen
-    TaskController::update($id);
-});
-
-$routes->post('/task/:id/destroy', function($id) {
-    // Pelin poisto
-    TaskController::destroy($id);
-});
-
-$routes->get('/login', function(){
-  // Kirjautumislomakkeen esittäminen
-  OwnerController::login();
-});
-$routes->post('/login', function(){
-  // Kirjautumisen käsittely
-  OwnerController::handle_login();
+$routes->post('/login', function() {
+    // Kirjautumisen käsittely
+    OwnerController::handle_login();
 });

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Add task</h1>
+<h1>Edit task</h1>
 
 {% if errors %}
 <div class="alert alert-danger">
@@ -12,7 +12,7 @@
 </div>
 {% endif %}
 
-<form method="post" action="{{base_path}}/task/:id/edit">
+<form method="post" action="{{base_path}}/task/{{attributes.id}}/edit">
     <div class="form-group">
         <label>Taskname</label>
         <input type="text" name="taskname" class="form-control" value="{{attributes.taskname}}">

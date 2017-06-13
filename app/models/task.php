@@ -16,18 +16,18 @@ class Task extends BaseModel {
         // Haetaan kyselyn tuottamat rivit
         $rows = $query->fetchAll();
         $tasks = array();
-        $owner = self::get_user_logged_in;
+        // $owner = self::get_user_logged_in;
         // Käydään kyselyn tuottamat rivit läpi
         foreach ($rows as $row) {
-            if ('id' == $owner . id) {
-                // Tämä on PHP:n hassu syntaksi alkion lisäämiseksi taulukkoon :)
-                $tasks[] = new Task(array(
-                    'id' => $row['id'],
-                    'owner_id' => $row['owner_id'],
-                    'taskname' => $row['taskname'],
-                    'description' => $row['description']
-                ));
-            }
+            //          if ('id' == $owner . id) {
+            // Tämä on PHP:n hassu syntaksi alkion lisäämiseksi taulukkoon :)
+            $tasks[] = new Task(array(
+                'id' => $row['id'],
+                'owner_id' => $row['owner_id'],
+                'taskname' => $row['taskname'],
+                'description' => $row['description']
+            ));
+            //   }
         }
 
         return $tasks;
@@ -35,7 +35,8 @@ class Task extends BaseModel {
 
     public static function find($id) {
         $query = DB::connection()->prepare('SELECT * FROM Task WHERE id = :id LIMIT 1');
-        $query->execute(array('id' => $id));
+        $query->bindValue(':id', $id, PDO::PARAM_INT);
+        $query->execute();
         $row = $query->fetch();
 
         if ($row) {
@@ -64,13 +65,17 @@ class Task extends BaseModel {
     }
 
     public function update() {
-        $query = DB::connection()->prepare('UPDATE Task (taskname, description) VALUES (:taskname, :description)');
-        $query->execute(array('taskname' => $this->taskname, 'description' => $this->description));
+        $query = DB::connection()->prepare('UPDATE Task SET (taskname, description) = (:taskname, :description) WHERE id=:id');
+        $query->bindValue(':id', $this->id, PDO::PARAM_INT);
+        $query->bindValue(':taskname', $this->taskname, PDO::PARAM_STR);
+        $query->bindValue(':description', $this->description, PDO::PARAM_STR);
+        $query->execute();
     }
 
     public function destroy() {
-        $query = DB::connection()->prepare('DELETE Task (taskname, description) VALUES (:taskname, :description)');
-        $query->execute(array('taskname' => $this->taskname, 'description' => $this->description));
+        $query = DB::connection()->prepare('DELETE FROM Task WHERE id=:id');
+        $query->bindValue(':id', $this->id, PDO::PARAM_INT);
+        $query->execute();
     }
 
     public function validate_taskname() {

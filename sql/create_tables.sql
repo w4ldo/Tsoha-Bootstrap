@@ -7,10 +7,14 @@ CREATE TABLE Owner (
 
 CREATE TABLE Task (
   id SERIAL PRIMARY KEY,
-  owner_id INTEGER REFERENCES Owner(id),
+  owner_id INTEGER,
   taskname varchar(50) NOT NULL,
   description varchar(400)
 );
+ALTER TABLE Task
+ADD FOREIGN KEY (owner_id)
+REFERENCES Owner(id)
+ON DELETE CASCADE;
 
 CREATE TABLE Tag (
   id SERIAL PRIMARY KEY,
@@ -18,12 +22,26 @@ CREATE TABLE Tag (
 );
 
 CREATE TABLE TaskTag (
-  tag_id INTEGER REFERENCES Tag(id) NOT NULL,
-  task_id INTEGER REFERENCES Task(id) NOT NULL
+  tag_id INTEGER NOT NULL,
+  task_id INTEGER NOT NULL
 );
+ALTER TABLE TaskTag
+ADD FOREIGN KEY (tag_id)
+REFERENCES Tag(id)
+ON DELETE CASCADE;
+
+ALTER TABLE TaskTag
+ADD FOREIGN KEY (task_id)
+REFERENCES Task(id)
+ON DELETE CASCADE;
 
 CREATE TABLE Priority (
   id SERIAL PRIMARY KEY,
-  task_id INTEGER REFERENCES Task(id),
+  task_id INTEGER,
   priorityname varchar(50) NOT NULL
 );
+
+ALTER TABLE Priority
+ADD FOREIGN KEY (task_id)
+REFERENCES Task(id)
+ON DELETE CASCADE;

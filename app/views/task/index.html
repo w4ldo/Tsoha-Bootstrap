@@ -1,6 +1,13 @@
 {% extends "base.html" %}
 {% import "macros/forms.html" as forms %}
 {% block content %}
+
+{% if message %}
+<div class="alert alert-success">
+    {{message}}
+</div>
+{% endif %}
+
 <h1>Listing</h1>
 
 {% if user_logged_in %}
@@ -26,7 +33,9 @@
             <td><a href="{{base_path}}/task/{{task.id}}">{{task.taskname}}</td>
             <td>{{task.description}}</td>
             <td><a class="btn btn-default btn-sm" href="{{base_path}}/task/{{task.id}}/edit">Edit</a></td>
-            <td>{{forms.destroy_button(("#{base_path}/task/#{task.id}/destroy"))}}</td>
+            <td><form method="post" action="{{base_path}}/task/{{task.id}}/destroy" style="display: inline-block;">
+                    <button type="submit" class="btn btn-danger">{{text|default('Delete')}}</button>
+                </form></td>
         </tr>
         {% endfor %}
     </tbody>
