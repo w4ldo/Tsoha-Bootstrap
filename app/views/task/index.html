@@ -8,12 +8,12 @@
 </div>
 {% endif %}
 
-<h1>Listing</h1>
+<h1>Listing 
 
-{% if user_logged_in %}
-<h1>Tasks for {{user_logged_in.name}}</h1>
-{% endif %}
-
+    {% if user_logged_in %}
+    Tasks for {{user_logged_in.username}}
+    {% endif %}
+</h1>
 <p>
     <a href="{{base_path}}/task/new" class="btn btn-success">add task</a>
 </p>
@@ -23,20 +23,23 @@
         <tr>
             <th>Task</th>
             <th>Description</th>
-            <th></th>
+            <th>Priority</th>
         </tr>
     </thead>
 
     <tbody>
         {% for task in tasks %}
+        {% if task.owner_id == user_logged_in.id %}
         <tr>
             <td><a href="{{base_path}}/task/{{task.id}}">{{task.taskname}}</td>
             <td>{{task.description}}</td>
+            <td>{{task.priorityname}}</td>
             <td><a class="btn btn-default btn-sm" href="{{base_path}}/task/{{task.id}}/edit">Edit</a></td>
             <td><form method="post" action="{{base_path}}/task/{{task.id}}/destroy" style="display: inline-block;">
                     <button type="submit" class="btn btn-danger">{{text|default('Delete')}}</button>
                 </form></td>
         </tr>
+        {% endif %}
         {% endfor %}
     </tbody>
 </table>

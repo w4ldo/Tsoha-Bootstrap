@@ -3,6 +3,13 @@
 <h1>Log in</h1>
 
 <form method="post" action="{{base_path}}/login">
+
+    {% if message %}
+    <div class="alert alert-info">
+        {{message}}
+    </div>
+    {% endif %}
+
     <div class="form-group">
         <label>Username</label>
         <input type="text" class="form-control" name="username" value="{{username}}">
@@ -13,6 +20,6 @@
         <input type="password" class="form-control" name="password">
     </div>
 
-    <button type="submit" class="btn btn-primary">LOg in</button>
+    <button type="submit" class="btn btn-primary">Log in</button>
 </form>
 {% endblock %}

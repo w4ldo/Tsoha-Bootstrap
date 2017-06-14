@@ -5,15 +5,25 @@ CREATE TABLE Owner (
   password varchar(50) NOT NULL
 );
 
+CREATE TABLE Priority (
+  id SERIAL PRIMARY KEY,
+  priorityname varchar(50) NOT NULL
+);
+
 CREATE TABLE Task (
   id SERIAL PRIMARY KEY,
   owner_id INTEGER,
+  priority_id INTEGER,
   taskname varchar(50) NOT NULL,
   description varchar(400)
 );
 ALTER TABLE Task
 ADD FOREIGN KEY (owner_id)
 REFERENCES Owner(id)
+ON DELETE CASCADE;
+ALTER TABLE Task
+ADD FOREIGN KEY (priority_id)
+REFERENCES Priority(id)
 ON DELETE CASCADE;
 
 CREATE TABLE Tag (
@@ -31,17 +41,6 @@ REFERENCES Tag(id)
 ON DELETE CASCADE;
 
 ALTER TABLE TaskTag
-ADD FOREIGN KEY (task_id)
-REFERENCES Task(id)
-ON DELETE CASCADE;
-
-CREATE TABLE Priority (
-  id SERIAL PRIMARY KEY,
-  task_id INTEGER,
-  priorityname varchar(50) NOT NULL
-);
-
-ALTER TABLE Priority
 ADD FOREIGN KEY (task_id)
 REFERENCES Task(id)
 ON DELETE CASCADE;

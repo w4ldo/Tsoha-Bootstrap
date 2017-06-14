@@ -7,9 +7,9 @@ class BaseController {
         if (isset($_SESSION['owner'])) {
             $owner_id = $_SESSION['owner'];
             // Pyydetään User-mallilta käyttäjä session mukaisella id:llä
-            $owner = User::find($owner_id);
+            $owner = Owner::find($owner_id);
 
-            return $user;
+            return $owner;
         }
 
         // Käyttäjä ei ole kirjautunut sisään
@@ -17,8 +17,9 @@ class BaseController {
     }
 
     public static function check_logged_in() {
-        // Toteuta kirjautumisen tarkistus tähän.
-        // Jos käyttäjä ei ole kirjautunut sisään, ohjaa hänet toiselle sivulle (esim. kirjautumissivulle).
+        if (!isset($_SESSION['owner'])) {
+            Redirect::to('/login', array('message' => 'You must be logged in!'));
+        }
     }
 
 }

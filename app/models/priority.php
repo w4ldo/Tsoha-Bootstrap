@@ -1,8 +1,8 @@
 <?php
 
-class Task extends BaseModel {
+class Priority extends BaseModel {
 
-    public $id, $owner_id, $priorityname, $taskname, $description;
+    public $id, $priorityname;
 
     public function __construct($attributes) {
         parent::__construct($attributes);
@@ -10,7 +10,7 @@ class Task extends BaseModel {
 
     public static function all() {
         // Alustetaan kysely tietokantayhteydellämme
-        $query = DB::connection()->prepare('SELECT * FROM Task LEFT JOIN Priority ON Task.priority_id = Priority.id;');
+        $query = DB::connection()->prepare('SELECT * FROM Priority');
         $query->execute();
         // Haetaan kyselyn tuottamat rivit
         $rows = $query->fetchAll();
@@ -20,35 +20,29 @@ class Task extends BaseModel {
         foreach ($rows as $row) {
             //          if ('id' == $owner . id) {
             // Tämä on PHP:n hassu syntaksi alkion lisäämiseksi taulukkoon :)
-            $tasks[] = new Task(array(
+            $priorities[] = new Priority(array(
                 'id' => $row['id'],
-                'owner_id' => $row['owner_id'],
-                'priorityname' => $row['priorityname'],
-                'taskname' => $row['taskname'],
-                'description' => $row['description']
+                'priorityname' => $row['priorityname']
             ));
             //   }
         }
 
-        return $tasks;
+        return $priorities;
     }
 
     public static function find($id) {
-        $query = DB::connection()->prepare('SELECT * FROM Task, Priority WHERE task.id = :id AND Task.priority_id = Priority.id');
+        $query = DB::connection()->prepare('SELECT * FROM Priority WHERE id = :id LIMIT 1');
         $query->bindValue(':id', $id, PDO::PARAM_INT);
         $query->execute();
         $row = $query->fetch();
 
         if ($row) {
-            $task = new Task(array(
+            $priority = new Priority(array(
                 'id' => $row['id'],
-                'owner_id' => $row['owner_id'],
-                'priorityname' => $row['priorityname'],
-                'taskname' => $row['taskname'],
-                'description' => $row['description']
+                'priorityname' => $row['priorityname']
             ));
 
-            return $task;
+            return $priority;
         }
 
         return null;
@@ -56,9 +50,9 @@ class Task extends BaseModel {
 
     public function save() {
         // Lisätään RETURNING id tietokantakyselymme loppuun, niin saamme lisätyn rivin id-sarakkeen arvon
-        $query = DB::connection()->prepare('INSERT INTO Task (owner_id, taskname, description) VALUES (:owner_id, :taskname, :description) RETURNING id');
+        $query = DB::connection()->prepare('INSERT INTO Priority (priorityname) VALUES (:priorityname) RETURNING id');
         // Muistathan, että olion attribuuttiin pääse syntaksilla $this->attribuutin_nimi
-        $query->execute(array('owner_id' => $this->owner_id, 'taskname' => $this->taskname, 'description' => $this->description));
+        $query->execute(array('priorityname' => $this->priorityname));
         // Haetaan kyselyn tuottama rivi, joka sisältää lisätyn rivin id-sarakkeen arvon
         $row = $query->fetch();
         // Asetetaan lisätyn rivin id-sarakkeen arvo oliomme id-attribuutin arvoksi
@@ -66,39 +60,29 @@ class Task extends BaseModel {
     }
 
     public function update() {
-        $query = DB::connection()->prepare('UPDATE Task SET (taskname, description) = (:taskname, :description) WHERE id=:id');
+        $query = DB::connection()->prepare('UPDATE Priority SET (priorityname) = (:priorityname) WHERE id=:id');
         $query->bindValue(':id', $this->id, PDO::PARAM_INT);
-        $query->bindValue(':taskname', $this->taskname, PDO::PARAM_STR);
-        $query->bindValue(':description', $this->description, PDO::PARAM_STR);
+        $query->bindValue(':priorityname', $this->priorityname, PDO::PARAM_STR);
         $query->execute();
     }
 
     public function destroy() {
-        $query = DB::connection()->prepare('DELETE FROM Task WHERE id=:id');
+        $query = DB::connection()->prepare('DELETE FROM Priority WHERE id=:id');
         $query->bindValue(':id', $this->id, PDO::PARAM_INT);
         $query->execute();
     }
 
-    public function validate_taskname() {
+    public function validate_priorityname() {
         $errors = array();
-        if ($this->taskname == '' || $this->taskname == null) {
+        if ($this->priorityname == '' || $this->priorityname == null) {
             $errors[] = 'Name can\'t be empty';
         }
-        if (strlen($this->taskname) < 3) {
+        if (strlen($this->priorityname) < 3) {
             $errors[] = 'Name must be atleast 3 characters';
         }
-        if (strlen($this->taskname) > 50) {
+        if (strlen($this->priorityname) > 50) {
             $errors[] = 'Name can\'t exceed 400 characters';
         }
-        return $errors;
-    }
-
-    public function validate_description() {
-        $errors = array();
-        if (strlen($this->description) > 400) {
-            $errors[] = 'Description can\'t exceed 400 characters';
-        }
-
         return $errors;
     }
 
@@ -106,7 +90,6 @@ class Task extends BaseModel {
         $errors = array();
 
         $errors = array_merge($errors, $this->validate_taskname());
-        $errors = array_merge($errors, $this->validate_description());
 
         return $errors;
     }

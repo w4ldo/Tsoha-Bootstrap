@@ -20,6 +20,7 @@ class TaskController extends BaseController {
         // POST-pyynnön muuttujat sijaitsevat $_POST nimisessä assosiaatiolistassa
         $params = $_POST;
         $attributes = array(
+            'owner_id' => $_SESSION['owner'],
             'taskname' => $params['taskname'],
             'description' => $params['description']
         );
