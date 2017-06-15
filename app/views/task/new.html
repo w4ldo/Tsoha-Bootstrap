@@ -24,6 +24,15 @@
     </div>
 
     <div class="form-group">
+        <label>Priority</label>
+        <select class="form-control" name="priority">
+            {% for priority in priorities %}
+            <option value="{{priority.id}}">{{priority.priorityname}}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group">
         <button type="submit" class="btn btn-primary">Add</button>
     </div>
 </form>

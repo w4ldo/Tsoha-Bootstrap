@@ -2,7 +2,7 @@
 
 class Task extends BaseModel {
 
-    public $id, $owner_id, $priorityname, $taskname, $description;
+    public $id, $owner_id, $priority_id, $priorityname, $taskname, $description;
 
     public function __construct($attributes) {
         parent::__construct($attributes);
@@ -10,7 +10,9 @@ class Task extends BaseModel {
 
     public static function all() {
         // Alustetaan kysely tietokantayhteydellämme
-        $query = DB::connection()->prepare('SELECT * FROM Task LEFT JOIN Priority ON Task.priority_id = Priority.id;');
+        $query = DB::connection()->prepare('SELECT task.id, task.owner_id, task.taskname, '
+                . 'task.description, priority.priorityname FROM Task LEFT JOIN Priority ON '
+                . 'Task.priority_id = Priority.id ORDER BY task.id;');
         $query->execute();
         // Haetaan kyselyn tuottamat rivit
         $rows = $query->fetchAll();
@@ -34,7 +36,10 @@ class Task extends BaseModel {
     }
 
     public static function find($id) {
-        $query = DB::connection()->prepare('SELECT * FROM Task, Priority WHERE task.id = :id AND Task.priority_id = Priority.id');
+        $query = DB::connection()->prepare('SELECT task.id, task.owner_id, task.taskname, '
+                . 'task.description, priority.priorityname FROM Task LEFT JOIN Priority ON '
+                . 'Task.priority_id = Priority.id'
+                . ' WHERE task.id = :id');
         $query->bindValue(':id', $id, PDO::PARAM_INT);
         $query->execute();
         $row = $query->fetch();
@@ -55,19 +60,16 @@ class Task extends BaseModel {
     }
 
     public function save() {
-        // Lisätään RETURNING id tietokantakyselymme loppuun, niin saamme lisätyn rivin id-sarakkeen arvon
-        $query = DB::connection()->prepare('INSERT INTO Task (owner_id, taskname, description) VALUES (:owner_id, :taskname, :description) RETURNING id');
-        // Muistathan, että olion attribuuttiin pääse syntaksilla $this->attribuutin_nimi
-        $query->execute(array('owner_id' => $this->owner_id, 'taskname' => $this->taskname, 'description' => $this->description));
-        // Haetaan kyselyn tuottama rivi, joka sisältää lisätyn rivin id-sarakkeen arvon
+        $query = DB::connection()->prepare('INSERT INTO Task (owner_id, priority_id, taskname, description) VALUES (:owner_id, :priority_id, :taskname, :description) RETURNING id');
+        $query->execute(array('owner_id' => $this->owner_id, 'priority_id' => $this->priority_id, 'taskname' => $this->taskname, 'description' => $this->description));
         $row = $query->fetch();
-        // Asetetaan lisätyn rivin id-sarakkeen arvo oliomme id-attribuutin arvoksi
         $this->id = $row['id'];
     }
 
     public function update() {
-        $query = DB::connection()->prepare('UPDATE Task SET (taskname, description) = (:taskname, :description) WHERE id=:id');
+        $query = DB::connection()->prepare('UPDATE Task SET (priority_id, taskname, description) = (:priority_id, :taskname, :description) WHERE id=:id');
         $query->bindValue(':id', $this->id, PDO::PARAM_INT);
+        $query->bindValue(':priority_id', $this->priority_id, PDO::PARAM_INT);
         $query->bindValue(':taskname', $this->taskname, PDO::PARAM_STR);
         $query->bindValue(':description', $this->description, PDO::PARAM_STR);
         $query->execute();
@@ -88,7 +90,7 @@ class Task extends BaseModel {
             $errors[] = 'Name must be atleast 3 characters';
         }
         if (strlen($this->taskname) > 50) {
-            $errors[] = 'Name can\'t exceed 400 characters';
+            $errors[] = 'Name can\'t exceed 50 characters';
         }
         return $errors;
     }

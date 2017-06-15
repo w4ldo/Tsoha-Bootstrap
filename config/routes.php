@@ -55,3 +55,11 @@ $routes->post('/login', function() {
 $routes->post('/logout', 'check_logged_in', function() {
     OwnerController::logout();
 });
+$routes->get('/signup', function() {
+    // Kirjautumislomakkeen esittäminen
+    OwnerController::signup();
+});
+$routes->post('/signup', function() {
+    // Kirjautumislomakkeen esittäminen
+    OwnerController::handle_signup();
+});

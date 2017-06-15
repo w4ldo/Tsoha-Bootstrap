@@ -8,8 +8,12 @@ INSERT INTO Priority (priorityname) VALUES ('do it later!');
 -- Task
 INSERT INTO Task (owner_id, priority_id, taskname, description) VALUES (1, 1, 'get to the choppa', 'do it now');
 INSERT INTO Task (owner_id, priority_id, taskname, description) VALUES (1, 2, 'Hasta la vista', 'baby');
-INSERT INTO Task (owner_id, taskname, description) VALUES (2, 'mmmmmm Donuts', 'eating this donut can wait');
-INSERT INTO Task (owner_id, taskname, description) VALUES (2, 'mmmmm Bagels', 'mmmm Bagels');
+INSERT INTO Task (owner_id, priority_id, taskname, description) VALUES (1, 2, 'Come with me', 'if you want to live');
+INSERT INTO Task (owner_id, priority_id, taskname, description) VALUES (1, 1, 'Your clothes', 'give them to me now!');
+INSERT INTO Task (owner_id, priority_id, taskname, description) VALUES (1, 2, 'Ill be', 'back');
+
+INSERT INTO Task (owner_id, priority_id, taskname, description) VALUES (2, 1, 'mmmmmm Donuts', 'eating this donut can wait');
+INSERT INTO Task (owner_id, priority_id, taskname, description) VALUES (2, 2, 'mmmmm Bagels', 'mmmm Bagels');
 
 -- Tag
 INSERT INTO Tag (tagname) VALUES ('gettin to the choppa');

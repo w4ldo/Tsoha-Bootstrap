@@ -8,7 +8,8 @@ class TaskController extends BaseController {
     }
 
     public static function create() {
-        View::make('task/new.html');
+        $priorities = Priority::all();
+        View::make('task/new.html', array('priorities' => $priorities));
     }
 
     public static function show($id) {
@@ -19,8 +20,10 @@ class TaskController extends BaseController {
     public static function store() {
         // POST-pyynnön muuttujat sijaitsevat $_POST nimisessä assosiaatiolistassa
         $params = $_POST;
+        $priority = $params['priority'];
         $attributes = array(
             'owner_id' => $_SESSION['owner'],
+            'priority_id' => $priority,
             'taskname' => $params['taskname'],
             'description' => $params['description']
         );
@@ -33,20 +36,23 @@ class TaskController extends BaseController {
 
             Redirect::to('/task/' . $task->id, array('message' => 'Task created'));
         } else {
-            View::make('task/new.html', array('errors' => $errors, 'attributes' => $attributes));
+            $priorities = Priority::all();
+            View::make('task/new.html', array('errors' => $errors, 'attributes' => $attributes, 'priorities' => $priorities));
         }
     }
 
     public static function edit($id) {
         $task = Task::find($id);
-        View::make('task/edit.html', array('attributes' => $task));
+        $priorities = Priority::all();
+        View::make('task/edit.html', array('attributes' => $task, 'priorities' => $priorities));
     }
 
     public static function update($id) {
         $params = $_POST;
-
+        $priority = $params['priority'];
         $attributes = array(
             'id' => $id,
+            'priority_id' => $priority,
             'taskname' => $params['taskname'],
             'description' => $params['description']
         );
@@ -54,7 +60,8 @@ class TaskController extends BaseController {
         $errors = $task->errors();
 
         if (count($errors) > 0) {
-            View::make('task/edit.html', array('errors' => $errors, 'attributes' => $attributes));
+            $priorities = Priority::all();
+            View::make('task/edit.html', array('errors' => $errors, 'attributes' => $attributes, 'priorities' => $priorities));
         } else {
             $task->update();
             Redirect::to('/task', array('message' => 'Task succesfully edited'));

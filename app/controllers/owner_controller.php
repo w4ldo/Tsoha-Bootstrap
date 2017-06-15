@@ -25,4 +25,27 @@ class OwnerController extends BaseController {
         Redirect::to('/login', array('message' => 'Succesfully logged out!'));
     }
 
+    public static function signup() {
+        View::make('owner/new.html');
+    }
+
+    public static function handle_signup() {
+        $params = $_POST;
+
+        $attributes = array(
+            'username' => $params['username'],
+            'password' => $params['password']
+        );
+
+        $owner = new Owner($attributes);
+        $errors = $owner->errors();
+        if (count($errors) == 0) {
+            $owner->save();
+
+            Redirect::to('/login', array('message' => 'Sign up complete'));
+        } else {
+            View::make('owner/new.html', array('errors' => $errors, 'attributes' => $attributes));
+        }
+    }
+
 }

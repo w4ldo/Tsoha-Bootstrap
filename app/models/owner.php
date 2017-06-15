@@ -66,4 +66,48 @@ class Owner extends BaseModel {
         }
     }
 
+    public function save() {
+        $query = DB::connection()->prepare('INSERT INTO Owner (username, password) VALUES (:username, :password) RETURNING id');
+        $query->execute(array('username' => $this->username, 'password' => $this->password));
+        $row = $query->fetch();
+        $this->id = $row['id'];
+    }
+
+    public function validate_username() {
+        $errors = array();
+        if ($this->username == '' || $this->username == null) {
+            $errors[] = 'Name can\'t be empty';
+        }
+        if (strlen($this->username) < 3) {
+            $errors[] = 'Name must be atleast 3 characters';
+        }
+        if (strlen($this->username) > 50) {
+            $errors[] = 'Name can\'t exceed 50 characters';
+        }
+        return $errors;
+    }
+
+    public function validate_password() {
+        $errors = array();
+        if ($this->password == '' || $this->password == null) {
+            $errors[] = 'Password can\'t be empty';
+        }
+        if (strlen($this->password) < 3) {
+            $errors[] = 'Password must be atleast 3 characters';
+        }
+        if (strlen($this->password) > 50) {
+            $errors[] = 'Password can\'t exceed 50 characters';
+        }
+        return $errors;
+    }
+
+    public function errors() {
+        $errors = array();
+
+        $errors = array_merge($errors, $this->validate_username());
+        $errors = array_merge($errors, $this->validate_password());
+
+        return $errors;
+    }
+
 }
