@@ -2,10 +2,10 @@
 
 Yleisiä linkkejä:
 
-* [Linkki sovellukseeni](http://imatias.users.cs.helsinki.fi/memoryTool/task) (user: Arnold pW: Arnold123)
-  * [tasks](http://imatias.users.cs.helsinki.fi/memoryTool/task)
-  * [task show](http://imatias.users.cs.helsinki.fi/memoryTool/task/1)
-  * [task new](http://imatias.users.cs.helsinki.fi/memoryTool/task/new)
+* [Linkki sovellukseeni](http://imatias.users.cs.helsinki.fi/memoryTool/task) (user: Arnold pw: Arnold123 tai tee oma käyttäjä)
+
+
+
 * [Linkki dokumentaatiooni](https://github.com/w4ldo/memoryTool/blob/master/doc/dokumentaatio.pdf)
 
 ## Työn aihe
