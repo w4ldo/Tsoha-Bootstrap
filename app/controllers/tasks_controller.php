@@ -9,7 +9,8 @@ class TaskController extends BaseController {
 
     public static function create() {
         $priorities = Priority::all();
-        View::make('task/new.html', array('priorities' => $priorities));
+        $tags = Tag::all();
+        View::make('task/new.html', array('priorities' => $priorities, 'tags' => $tags));
     }
 
     public static function show($id) {
@@ -21,12 +22,21 @@ class TaskController extends BaseController {
         // POST-pyynnön muuttujat sijaitsevat $_POST nimisessä assosiaatiolistassa
         $params = $_POST;
         $priority = $params['priority'];
+        if (array_key_exists("tags", $params)) {
+            $tags = $params['tags'];
+        } else {
+            $tags[] = '';
+        }
+
         $attributes = array(
             'owner_id' => $_SESSION['owner'],
             'priority_id' => $priority,
             'taskname' => $params['taskname'],
             'description' => $params['description']
         );
+        foreach ($tags as $tag) {
+            $attributes['tags'][] = $tag;
+        }
 
         $task = new Task($attributes);
         $errors = $task->errors();
@@ -37,31 +47,41 @@ class TaskController extends BaseController {
             Redirect::to('/task/' . $task->id, array('message' => 'Task created'));
         } else {
             $priorities = Priority::all();
-            View::make('task/new.html', array('errors' => $errors, 'attributes' => $attributes, 'priorities' => $priorities));
+            $tags = Tag::all();
+            View::make('task/new.html', array('errors' => $errors, 'attributes' => $attributes, 'priorities' => $priorities, 'tags' => $tags));
         }
     }
 
     public static function edit($id) {
         $task = Task::find($id);
+        $tags = Tag::all();
         $priorities = Priority::all();
-        View::make('task/edit.html', array('attributes' => $task, 'priorities' => $priorities));
+        View::make('task/edit.html', array('attributes' => $task, 'priorities' => $priorities, 'tags' => $tags));
     }
 
     public static function update($id) {
         $params = $_POST;
         $priority = $params['priority'];
+        if (array_key_exists("tags", $params)) {
+            $tags = $params['tags'];
+        } else {
+            $tags[] = '';
+        }
         $attributes = array(
             'id' => $id,
             'priority_id' => $priority,
             'taskname' => $params['taskname'],
             'description' => $params['description']
         );
+        foreach ($tags as $tag) {
+            $attributes['tags'][] = $tag;
+        }
         $task = new Task($attributes);
         $errors = $task->errors();
 
         if (count($errors) > 0) {
             $priorities = Priority::all();
-            View::make('task/edit.html', array('errors' => $errors, 'attributes' => $attributes, 'priorities' => $priorities));
+            View::make('task/edit.html', array('errors' => $errors, 'attributes' => $attributes, 'priorities' => $priorities, $priorities, 'tags' => $tags));
         } else {
             $task->update();
             Redirect::to('/task', array('message' => 'Task succesfully edited'));

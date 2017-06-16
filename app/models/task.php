@@ -2,26 +2,20 @@
 
 class Task extends BaseModel {
 
-    public $id, $owner_id, $priority_id, $priorityname, $taskname, $description;
+    public $id, $owner_id, $priority_id, $priorityname, $taskname, $description, $tags;
 
     public function __construct($attributes) {
         parent::__construct($attributes);
     }
 
     public static function all() {
-        // Alustetaan kysely tietokantayhteydellämme
         $query = DB::connection()->prepare('SELECT task.id, task.owner_id, task.taskname, '
                 . 'task.description, priority.priorityname FROM Task LEFT JOIN Priority ON '
                 . 'Task.priority_id = Priority.id ORDER BY task.id;');
         $query->execute();
-        // Haetaan kyselyn tuottamat rivit
         $rows = $query->fetchAll();
         $tasks = array();
-        // $owner = self::get_user_logged_in;
-        // Käydään kyselyn tuottamat rivit läpi
         foreach ($rows as $row) {
-            //          if ('id' == $owner . id) {
-            // Tämä on PHP:n hassu syntaksi alkion lisäämiseksi taulukkoon :)
             $tasks[] = new Task(array(
                 'id' => $row['id'],
                 'owner_id' => $row['owner_id'],
@@ -29,10 +23,48 @@ class Task extends BaseModel {
                 'taskname' => $row['taskname'],
                 'description' => $row['description']
             ));
-            //   }
         }
 
         return $tasks;
+    }
+
+    public static function all_with_tag($id) {
+        $query = DB::connection()->prepare('SELECT task.id, task.owner_id, task.taskname, '
+                . 'task.description, priority.priorityname FROM Task, TaskTag, Tag, '
+                . 'Priority WHERE task.priority_id = priority.id AND task.id = '
+                . 'tasktag.task_id AND tag.id = tasktag.tag_id AND tag.id = :id ORDER BY task.id;');
+        $query->bindValue(':id', $id);
+        $query->execute();
+        $rows = $query->fetchAll();
+        $tasks = array();
+        foreach ($rows as $row) {
+            $tasks[] = new Task(array(
+                'id' => $row['id'],
+                'owner_id' => $row['owner_id'],
+                'priorityname' => $row['priorityname'],
+                'taskname' => $row['taskname'],
+                'description' => $row['description']
+            ));
+        }
+
+        return $tasks;
+    }
+
+    public static function tags($id) {
+        $query = DB::connection()->prepare('SELECT tag.tagname, tag.id FROM Task, Tag, TaskTag '
+                . 'WHERE task.id = tasktag.task_id AND tag.id = tasktag.tag_id AND task.id = :id');
+        $query->bindValue(':id', $id);
+        $query->execute();
+        $rows = $query->fetchAll();
+        $tags = array();
+        foreach ($rows as $row) {
+            $tags[] = new Tag(array(
+                'id' => $row['id'],
+                'tagname' => $row['tagname']
+            ));
+        }
+
+        return $tags;
     }
 
     public static function find($id) {
@@ -64,15 +96,25 @@ class Task extends BaseModel {
         $query->execute(array('owner_id' => $this->owner_id, 'priority_id' => $this->priority_id, 'taskname' => $this->taskname, 'description' => $this->description));
         $row = $query->fetch();
         $this->id = $row['id'];
+        if (!in_array("", $this->tags)) {
+            foreach ($this->tags as $tag) {
+                $query = DB::connection()->prepare('INSERT INTO TaskTag (tag_id, task_id) VALUES (:tag_id, :task_id)');
+                $query->execute(array('tag_id' => $tag, 'task_id' => $this->id));
+            }
+        }
     }
 
     public function update() {
-        $query = DB::connection()->prepare('UPDATE Task SET (priority_id, taskname, description) = (:priority_id, :taskname, :description) WHERE id=:id');
-        $query->bindValue(':id', $this->id, PDO::PARAM_INT);
-        $query->bindValue(':priority_id', $this->priority_id, PDO::PARAM_INT);
-        $query->bindValue(':taskname', $this->taskname, PDO::PARAM_STR);
-        $query->bindValue(':description', $this->description, PDO::PARAM_STR);
-        $query->execute();
+        $query = DB::connection()->prepare('UPDATE Task SET (priority_id, taskname, description) = (:priority_id, :taskname, :description) WHERE id = :id');
+        $query->execute(array('priority_id' => $this->priority_id, 'taskname' => $this->taskname, 'description' => $this->description, 'id' => $this->id));
+        $query = DB::connection()->prepare('DELETE FROM TaskTag WHERE task_id = :task_id');
+        $query->execute(array('task_id' => $this->id));
+        if (!in_array("", $this->tags)) {
+            foreach ($this->tags as $tag) {
+                $query = DB::connection()->prepare('INSERT INTO TaskTag (tag_id, task_id) VALUES (:tag_id, :task_id)');
+                $query->execute(array('tag_id' => $tag, 'task_id' => $this->id));
+            }
+        }
     }
 
     public function destroy() {

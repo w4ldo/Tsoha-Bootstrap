@@ -9,13 +9,9 @@ class HelloWorldController extends BaseController {
 
     public static function sandbox() {
         // Testaa koodiasi täällä
-        $doom = new Task(array(
-            'taskname' => 'd',
-            'description' => 'Bo'
-        ));
-        $errors = $doom->errors();
+        
 
-        Kint::dump($errors);
+        Kint::dump(Task::tags(1));
     }
 
     public static function task_edit() {

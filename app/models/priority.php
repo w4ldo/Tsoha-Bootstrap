@@ -75,13 +75,13 @@ class Priority extends BaseModel {
     public function validate_priorityname() {
         $errors = array();
         if ($this->priorityname == '' || $this->priorityname == null) {
-            $errors[] = 'Name can\'t be empty';
+            $errors[] = 'Priority can\'t be empty';
         }
         if (strlen($this->priorityname) < 3) {
-            $errors[] = 'Name must be atleast 3 characters';
+            $errors[] = 'Priority must be atleast 3 characters';
         }
         if (strlen($this->priorityname) > 50) {
-            $errors[] = 'Name can\'t exceed 400 characters';
+            $errors[] = 'Priority can\'t exceed 400 characters';
         }
         return $errors;
     }
@@ -89,7 +89,7 @@ class Priority extends BaseModel {
     public function errors() {
         $errors = array();
 
-        $errors = array_merge($errors, $this->validate_taskname());
+        $errors = array_merge($errors, $this->validate_priorityname());
 
         return $errors;
     }
