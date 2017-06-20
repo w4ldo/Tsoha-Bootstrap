@@ -4,7 +4,6 @@ Yleisiä linkkejä:
 
 * [Linkki sovellukseeni](http://imatias.users.cs.helsinki.fi/memoryTool/task)
   * user: Arnold pw: Arnold123 tai tee oma käyttäjä
-  * huom! vaikka käyttäjän Arnold testidata on annettu hieman offtopic muodossa, on sovelluksen toiminnallinen tarkoistus edelleen muistilista. Kuten näkyy on soveltaminen kuitenkin mahdollista.
 
 
 * [Linkki dokumentaatiooni](https://github.com/w4ldo/memoryTool/blob/master/doc/dokumentaatio.pdf)
