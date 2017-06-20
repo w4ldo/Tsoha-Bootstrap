@@ -63,20 +63,20 @@ $routes->post('/signup', function() {
     // Kirjautumislomakkeen esittäminen
     OwnerController::handle_signup();
 });
-$routes->get('/priority/new', function() {
+$routes->get('/priority/new', 'check_logged_in', function() {
     // Kirjautumislomakkeen esittäminen
     PriorityController::create();
 });
-$routes->post('/priority', function() {
+$routes->post('/priority', 'check_logged_in', function() {
     // Kirjautumislomakkeen esittäminen
     PriorityController::store();
 });
 
-$routes->get('/tag/new', function() {
+$routes->get('/tag/new', 'check_logged_in', function() {
     // Kirjautumislomakkeen esittäminen
     TagController::create();
 });
-$routes->post('/tag', function() {
+$routes->post('/tag', 'check_logged_in', function() {
     // Kirjautumislomakkeen esittäminen
     TagController::store();
 });

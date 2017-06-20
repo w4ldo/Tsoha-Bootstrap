@@ -60,6 +60,7 @@ class TaskController extends BaseController {
     }
 
     public static function update($id) {
+        $all_tags = Tag::all();
         $params = $_POST;
         $priority = $params['priority'];
         if (array_key_exists("tags", $params)) {
@@ -81,7 +82,7 @@ class TaskController extends BaseController {
 
         if (count($errors) > 0) {
             $priorities = Priority::all();
-            View::make('task/edit.html', array('errors' => $errors, 'attributes' => $attributes, 'priorities' => $priorities, $priorities, 'tags' => $tags));
+            View::make('task/edit.html', array('errors' => $errors, 'attributes' => $attributes, 'priorities' => $priorities, $priorities, 'tags' => $all_tags));
         } else {
             $task->update();
             Redirect::to('/task', array('message' => 'Task succesfully edited'));
