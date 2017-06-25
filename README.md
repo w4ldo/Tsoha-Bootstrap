@@ -2,7 +2,7 @@
 
 Yleisiä linkkejä:
 
-* [Linkki sovellukseeni](http://imatias.users.cs.helsinki.fi/memoryTool/task)
+* [Linkki sovellukseen](http://imatias.users.cs.helsinki.fi/memoryTool/task)
   * user: Arnold pw: Arnold123 tai tee oma käyttäjä
 
 
