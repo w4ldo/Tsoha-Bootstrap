@@ -11,8 +11,9 @@ INSERT INTO Task (owner_id, priority_id, taskname, description) VALUES (1, 2, 'c
 INSERT INTO Task (owner_id, priority_id, taskname, description) VALUES (1, 1, 'take out the trash', 'every bag');
 INSERT INTO Task (owner_id, priority_id, taskname, description) VALUES (1, 2, 'do laundry', 'mmm laundry');
 INSERT INTO Task (owner_id, priority_id, taskname, description) VALUES (1, 1, 'study for exams', 'chemistry');
-INSERT INTO Task (owner_id, priority_id, taskname, description) VALUES (1, 2, 'finish project', 'almost done');
+INSERT INTO Task (owner_id, priority_id, taskname, description) VALUES (1, 3, 'finish project', 'almost done');
 INSERT INTO Task (owner_id, priority_id, taskname, description) VALUES (1, 2, 'buy more stamps', 'never enough stamps');
+INSERT INTO Task (owner_id, priority_id, taskname, description) VALUES (1, 3, 'create more tasks', '...');
 
 
 -- Tag
@@ -32,6 +33,7 @@ INSERT INTO TaskTag (tag_id, task_id) VALUES (1, 4);
 INSERT INTO TaskTag (tag_id, task_id) VALUES (4, 5);
 INSERT INTO TaskTag (tag_id, task_id) VALUES (4, 6);
 INSERT INTO TaskTag (tag_id, task_id) VALUES (2, 7);
+INSERT INTO TaskTag (tag_id, task_id) VALUES (4, 8);
 -- Priority
 -- taskPriority
 -- INSERT INTO TaskPriority (priority_id, task_id) VALUES (Priority.first.id, Task.first.id);
