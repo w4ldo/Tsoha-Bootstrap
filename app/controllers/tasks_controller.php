@@ -19,7 +19,6 @@ class TaskController extends BaseController {
     }
 
     public static function store() {
-        // POST-pyynnön muuttujat sijaitsevat $_POST nimisessä assosiaatiolistassa
         $params = $_POST;
         $priority = $params['priority'];
         if (array_key_exists("tags", $params)) {
