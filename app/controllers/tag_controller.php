@@ -7,7 +7,6 @@ class TagController extends BaseController {
     }
 
     public static function store() {
-        // POST-pyynnön muuttujat sijaitsevat $_POST nimisessä assosiaatiolistassa
         $params = $_POST;
         $attributes = array(
             'tagname' => $params['tagname']
