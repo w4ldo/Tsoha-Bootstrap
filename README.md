@@ -6,7 +6,7 @@ Yleisiä linkkejä:
   * user: Arnold pw: Arnold123 tai tee oma käyttäjä
 
 
-* [Linkki dokumentaatiooni](https://github.com/w4ldo/memoryTool/blob/master/doc/dokumentaatio.pdf)
+* [Linkki dokumentaatioon](https://github.com/w4ldo/memoryTool/blob/master/doc/dokumentaatio.pdf)
 
 ## Työn aihe
 
