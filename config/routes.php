@@ -8,10 +8,6 @@ $routes->get('/', 'check_logged_in', function() {
     TaskController::index();
 });
 
-$routes->get('/hiekkalaatikko', function() {
-    HelloWorldController::sandbox();
-});
-
 $routes->post('/task/:id/destroy', 'check_logged_in', function($id) {
     // Pelin poisto
     TaskController::destroy($id);
