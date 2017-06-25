@@ -7,7 +7,6 @@ class PriorityController extends BaseController {
     }
 
     public static function store() {
-        // POST-pyynnön muuttujat sijaitsevat $_POST nimisessä assosiaatiolistassa
         $params = $_POST;
         $attributes = array(
             'priorityname' => $params['priorityname']
