@@ -9,22 +9,15 @@ class Priority extends BaseModel {
     }
 
     public static function all() {
-        // Alustetaan kysely tietokantayhteydellämme
         $query = DB::connection()->prepare('SELECT * FROM Priority');
         $query->execute();
-        // Haetaan kyselyn tuottamat rivit
         $rows = $query->fetchAll();
         $tasks = array();
-        // $owner = self::get_user_logged_in;
-        // Käydään kyselyn tuottamat rivit läpi
         foreach ($rows as $row) {
-            //          if ('id' == $owner . id) {
-            // Tämä on PHP:n hassu syntaksi alkion lisäämiseksi taulukkoon :)
             $priorities[] = new Priority(array(
                 'id' => $row['id'],
                 'priorityname' => $row['priorityname']
             ));
-            //   }
         }
 
         return $priorities;
@@ -49,13 +42,9 @@ class Priority extends BaseModel {
     }
 
     public function save() {
-        // Lisätään RETURNING id tietokantakyselymme loppuun, niin saamme lisätyn rivin id-sarakkeen arvon
         $query = DB::connection()->prepare('INSERT INTO Priority (priorityname) VALUES (:priorityname) RETURNING id');
-        // Muistathan, että olion attribuuttiin pääse syntaksilla $this->attribuutin_nimi
         $query->execute(array('priorityname' => $this->priorityname));
-        // Haetaan kyselyn tuottama rivi, joka sisältää lisätyn rivin id-sarakkeen arvon
         $row = $query->fetch();
-        // Asetetaan lisätyn rivin id-sarakkeen arvo oliomme id-attribuutin arvoksi
         $this->id = $row['id'];
     }
 
